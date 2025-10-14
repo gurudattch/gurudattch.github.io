@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Utilities</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    h1 {
+      margin-bottom: 30px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+      max-width: 500px;
+    }
+    li {
+      background: white;
+      margin: 10px 0;
+      padding: 14px 18px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    li:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+    a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: 500;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .add {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+    }
+    input, button {
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 My Utilities</h1>
+
+  <ul id="utilsList">
+    <!-- Example entries -->
+    <li><a href="filerename.html" target="_blank">File Rename</a></li>
+    <li><a href="compressor.html" target="_blank">File Compressor</a></li>
+  </ul>
+
+  <div class="add">
+    <input type="text" id="nameInput" placeholder="Utility name">
+    <input type="url" id="urlInput" placeholder="https://example.com/tool.html">
+    <button id="addBtn">Add</button>
+  </div>
+
+  <script>
+    const utilsList = document.getElementById("utilsList");
+    const nameInput = document.getElementById("nameInput");
+    const urlInput = document.getElementById("urlInput");
+    const addBtn = document.getElementById("addBtn");
+
+    // Load stored utilities
+    const stored = JSON.parse(localStorage.getItem("utilities") || "[]");
+    stored.forEach(u => addToList(u.name, u.url));
+
+    function addToList(name, url) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = url;
+      a.textContent = name;
+      a.target = "_blank";
+      li.appendChild(a);
+      utilsList.appendChild(li);
+    }
+
+    addBtn.addEventListener("click", () => {
+      const name = nameInput.value.trim();
+      const url = urlInput.value.trim();
+
+      if (!name || !url) return alert("Enter both name and URL!");
+
+      addToList(name, url);
+
+      // Save to local storage
+      stored.push({ name, url });
+      localStorage.setItem("utilities", JSON.stringify(stored));
+
+      nameInput.value = "";
+      urlInput.value = "";
+    });
+  </script>
+</body>
+</html>
