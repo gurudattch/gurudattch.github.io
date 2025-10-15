@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Researcher Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Matrix Background Canvas -->
+    <canvas id="matrixCanvas"></canvas>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-text">&lt;/&gt; Security Researcher</span>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#hall-of-fame">Hall of Fame</a></li>
+                <li><a href="#cve">CVEs</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="glitch" data-text="Cybersecurity Researcher">Cybersecurity Researcher</h1>
+                <p class="typewriter">Ethical Hacker | Penetration Tester | Bug Hunter</p>
+                <div class="hero-buttons">
+                    <a href="#about" class="btn btn-primary">Learn More</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="image-container">
+                        <img src=".jpg" alt="Security Researcher" class="profile-img">
+                        <div class="image-overlay"></div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h3>Who I Am</h3>
+                    <p>I am a passionate cybersecurity researcher dedicated to finding vulnerabilities and helping organizations secure their digital assets. With expertise in penetration testing, vulnerability assessment, and ethical hacking, I work to make the digital world safer.</p>
+                    
+                    <h3>My Mission</h3>
+                    <p>To identify security flaws before malicious actors can exploit them, contributing to a more secure internet for everyone. I believe in responsible disclosure and collaborative security improvement.</p>
+                    
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="50">0</span>
+                            <span class="stat-label">Vulnerabilities Found</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="15">0</span>
+                            <span class="stat-label">CVEs Published</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="30">0</span>
+                            <span class="stat-label">Hall of Fame Entries</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="achievements">
+        <div class="container">
+            <h2 class="section-title">Key Achievements</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Critical Vulnerability in Banking System</h3>
+                        <span class="date">2024</span>
+                        <p>Discovered and responsibly disclosed a critical authentication bypass vulnerability affecting a major financial institution's online banking platform.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Remote Code Execution in Cloud Service</h3>
+                        <span class="date">2023</span>
+                        <p>Identified an RCE vulnerability in a widely-used cloud service provider, potentially affecting thousands of enterprise customers.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Security Conference Speaker</h3>
+                        <span class="date">2023</span>
+                        <p>Presented research on emerging threats in IoT security at BlackHat and DEFCON conferences.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Open Source Security Tool Development</h3>
+                        <span class="date">2022</span>
+                        <p>Created and maintained an open-source tool for automated API security testing, with over 1,000 GitHub stars.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hall of Fame Section -->
+    <section id="hall-of-fame" class="hall-of-fame">
+        <div class="container">
+            <h2 class="section-title">Hall of Fame</h2>
+            <p class="section-description">Organizations that have acknowledged my security contributions</p>
+            
+            <div class="hof-grid">
+                <div class="hof-item">
+                    <div class="hof-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Google_Favicon_2025.svg" alt="Google">
+                    </div>
+                    <div class="hof-details">
+                        <h3>Google</h3>
+                        <p>XSS vulnerability in Google Maps</p>
+                        <span class="hof-date">December 2024</span>
+                    </div>
+                </div>
+                
+                <div class="hof-item">
+                    <div class="hof-logo">
+                        <img src="images/microsoft.png" alt="Microsoft">
+                    </div>
+                    <div class="hof-details">
+                        <h3>Microsoft</h3>
+                        <p>SSRF vulnerability in Azure services</p>
+                        <span class="hof-date">October 2024</span>
+                    </div>
+                </div>
+                
+                <div class="hof-item">
+                    <div class="hof-logo">
+                        <img src="images/paypal.png" alt="PayPal">
+                    </div>
+                    <div class="hof-details">
+                        <h3>PayPal</h3>
+                        <p>Authentication bypass in payment flow</p>
+                        <span class="hof-date">August 2024</span>
+                    </div>
+                </div>
+                
+                <div class="hof-item">
+                    <div class="hof-logo">
+                        <img src="images/apple.png" alt="Apple">
+                    </div>
+                    <div class="hof-details">
+                        <h3>Apple</h3>
+                        <p>Security vulnerability in iCloud authentication</p>
+                        <span class="hof-date">May 2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CVE Section -->
+    <section id="cve" class="cve-section">
+        <div class="container">
+            <h2 class="section-title">CVE Discoveries</h2>
+            <p class="section-description">Vulnerabilities I've discovered that received CVE assignments</p>
+            
+            <div class="cve-table-container">
+                <table class="cve-table">
+                    <thead>
+                        <tr>
+                            <th>CVE ID</th>
+                            <th>Product</th>
+                            <th>Vulnerability Type</th>
+                            <th>Severity</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CVE-2024-XXXX</td>
+                            <td>WordPress Plugin XYZ</td>
+                            <td>SQL Injection</td>
+                            <td><span class="severity critical">Critical</span></td>
+                            <td>2024</td>
+                        </tr>
+                        <tr>
+                            <td>CVE-2024-XXXX</td>
+                            <td>OpenSSH</td>
+                            <td>Buffer Overflow</td>
+                            <td><span class="severity high">High</span></td>
+                            <td>2024</td>
+                        </tr>
+                        <tr>
+                            <td>CVE-2023-XXXX</td>
+                            <td>Apache Struts</td>
+                            <td>Remote Code Execution</td>
+                            <td><span class="severity critical">Critical</span></td>
+                            <td>2023</td>
+                        </tr>
+                        <tr>
+                            <td>CVE-2023-XXXX</td>
+                            <td>Nginx</td>
+                            <td>Path Traversal</td>
+                            <td><span class="severity medium">Medium</span></td>
+                            <td>2023</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>Penetration Testing</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">Web Application Testing</div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 95%;" data-level="95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">Network Penetration</div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 90%;" data-level="90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">Mobile App Security</div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 85%;" data-level="85%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>Tools & Technologies</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">Burp Suite</div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 98%;" data-level="98%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">Metasploit</div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 90%;" data-level="90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">Nmap</div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 95%;" data-level="95%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="skill-matrix">
+                <h3>Security Expertise Matrix</h3>
+                <div class="matrix-container">
+                    <!-- Matrix will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications">
+        <div class="container">
+            <h2 class="section-title">Certifications & Education</h2>
+            
+            <div class="cert-grid">
+                <div class="cert-item">
+                    <div class="cert-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="cert-details">
+                        <h3>Offensive Security Certified Professional (OSCP)</h3>
+                        <p>Offensive Security</p>
+                        <span class="cert-date">2023</span>
+                    </div>
+                </div>
+                
+                <div class="cert-item">
+                    <div class="cert-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="cert-details">
+                        <h3>Certified Ethical Hacker (CEH)</h3>
+                        <p>EC-Council</p>
+                        <span class="cert-date">2022</span>
+                    </div>
+                </div>
+                
+                <div class="cert-item">
+                    <div class="cert-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="cert-details">
+                        <h3>Certified Information Systems Security Professional (CISSP)</h3>
+                        <p>(ISC)²</p>
+                        <span class="cert-date">2023</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>contact@securityresearcher.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-twitter"></i>
+                        <p>@security_researcher</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <p>github.com/security-researcher</p>
+                    </div>
+                </div>
+                
+              <!--  <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div> -->
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">&lt;/&gt; Security Researcher</span>
+                    <p>Making the digital world safer, one vulnerability at a time.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#achievements">Achievements</a></li>
+                        <li><a href="#hall-of-fame">Hall of Fame</a></li>
+                        <li><a href="#cve">CVEs</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-social">
+                    <h3>Connect</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-medium"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Security Researcher. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
