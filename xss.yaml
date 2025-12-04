@@ -1,0 +1,55 @@
+openapi: 3.0.3
+info:
+  title: XSS PoC API (Reflected XSS)
+  description: >
+    Proof-of-concept API that demonstrates a reflected XSS vulnerability.
+    This specification is intentionally vulnerable for testing and training only.
+    Do not use against systems without permission.
+  version: "1.0.0"
+servers:
+  - url: https://example.invalid
+    description: "Placeholder server (use in a controlled environment)"
+paths:
+  /search:
+    get:
+      summary: "Reflected XSS demonstration endpoint"
+      description: |
+        Accepts a query parameter `q` and (unsafely) reflects it into an HTML response.
+        The `responses` section contains an example that includes an XSS payload.
+      parameters:
+        - name: q
+          in: query
+          description: "Search query (unescaped in response — intentionally vulnerable)"
+          required: false
+          schema:
+            type: string
+          examples:
+            benign:
+              summary: normal search
+              value: "hello"
+            xss_payload:
+              summary: simple XSS payload
+              value: "<script>alert('XSS')</script>"
+      responses:
+        '200':
+          description: "HTML page that (unsafely) reflects `q` into the response body"
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <!doctype html>
+                  <html>
+                    <head>
+                      <meta charset="utf-8">
+                      <title>Search results</title>
+                    </head>
+                    <body>
+                      <h1>Search results</h1>
+                      <p>Showing results for: <strong><script>alert('XSS')</script></strong></p>
+                      <div id="results">
+                        <!-- In a real vulnerable app the unescaped q value would be embedded above -->
+                        <p>No real backend in this PoC — this is an example response showing a reflected payload.</p>
+                      </div>
+                    </body>
+                  </html>
