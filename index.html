@@ -3,418 +3,776 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybersecurity Researcher Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <title>Gurudatt Choudhary | Security Researcher</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #050a14;
+            --bg-card: #0f1623;
+            --bg-card-hover: #1a2332;
+            --accent-primary: #00d4ff; /* Electric Blue */
+            --accent-secondary: #ff0055; /* Cyber Red/Pink */
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'Share Tech Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Utilities --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-family: var(--font-mono);
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 3rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-secondary);
+            margin: 10px auto 0;
+            box-shadow: 0 0 10px var(--accent-secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: transparent;
+            color: var(--accent-primary);
+            border: 1px solid var(--accent-primary);
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: var(--accent-primary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 10, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .logo span { color: var(--accent-secondary); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            font-family: var(--font-mono);
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-primary); }
+
+        .menu-toggle { display: none; color: var(--text-main); font-size: 1.5rem; cursor: pointer; }
+
+        /* --- Hero --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #162032 0%, var(--bg-dark) 70%);
+            padding-top: 60px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.5;
+        }
+
+        .hero-content { text-align: center; z-index: 2; padding: 0 20px; }
+        .hero h2 { font-family: var(--font-mono); font-size: 1.2rem; color: var(--accent-secondary); margin-bottom: 1rem; letter-spacing: 1px; }
+        .hero h1 { font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; text-transform: uppercase; }
+        .hero h1 span { color: var(--text-muted); display: block; font-size: 1.5rem; margin-bottom: 10px; font-family: var(--font-mono); }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2.5rem; }
+
+        /* --- About --- */
+        section { padding: 5rem 0; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .about-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 0 10px 0 10px; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .about-card::before { content: ''; position: absolute; top: -1px; left: -1px; width: 40px; height: 40px; border-top: 2px solid var(--accent-primary); border-left: 2px solid var(--accent-primary); }
+        .terminal-text { font-family: var(--font-mono); color: #00ff9d; margin-bottom: 1rem; display: block; font-size: 0.9rem; }
+
+        /* --- Experience --- */
+        .timeline { position: relative; max-width: 900px; margin: 0 auto; }
+        .timeline::after { content: ''; position: absolute; width: 2px; background: var(--border-color); top: 0; bottom: 0; left: 50%; margin-left: -1px; }
+        .timeline-item { padding: 10px 40px; position: relative; background-color: inherit; width: 50%; }
+        .timeline-item.left { left: 0; text-align: right; }
+        .timeline-item.right { left: 50%; }
+        .timeline-item::after { content: ''; position: absolute; width: 16px; height: 16px; right: -8px; background-color: var(--bg-dark); border: 2px solid var(--accent-primary); top: 20px; border-radius: 50%; z-index: 1; box-shadow: 0 0 10px var(--accent-primary); }
+        .timeline-item.right::after { left: -8px; }
+        .content { padding: 25px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 4px; transition: transform 0.3s; }
+        .content:hover { transform: translateY(-5px); border-color: var(--accent-primary); }
+        .content h3 { color: var(--text-main); margin-bottom: 5px; font-size: 1.2rem; }
+        .content h4 { font-size: 0.85rem; color: var(--accent-primary); margin-bottom: 15px; font-family: var(--font-mono); }
+
+        /* --- Skills --- */
+        .skills-container { background: var(--bg-card); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; justify-content: center; max-width: 900px; margin: 0 auto; position: relative; }
+        .skills-container::before { content: 'SKILL_MATRIX_V2.0'; position: absolute; top: 10px; left: 20px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); opacity: 0.5; }
+
+        /* --- CVE Section (New) --- */
+        .cve-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .cve-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateX(10px);
+        }
+        .cve-id {
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+        .cve-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            max-width: 70%;
+        }
+        .severity-badge {
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 2px;
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+        }
+        .sev-critical { background: rgba(255, 0, 85, 0.2); color: var(--accent-secondary); border: 1px solid var(--accent-secondary); }
+        .sev-high { background: rgba(255, 165, 0, 0.2); color: #ffa500; border: 1px solid #ffa500; }
+        .sev-medium { background: rgba(0, 212, 255, 0.2); color: var(--accent-primary); border: 1px solid var(--accent-primary); }
+
+        /* --- Letter of Appreciation (New) --- */
+        .letter-card {
+            background: linear-gradient(135deg, #0f1623 0%, #05080f 100%);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            position: relative;
+            font-style: italic;
+        }
+        .letter-card::before {
+            content: "“";
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 5rem;
+            color: rgba(255,255,255,0.05);
+            font-family: serif;
+        }
+        .letter-card::after {
+            content: "”";
+            position: absolute;
+            bottom: -20px;
+            right: 20px;
+            font-size: 5rem;
+            color: rgba(255,255,255,0.05);
+            font-family: serif;
+        }
+        .letter-footer {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 1.5rem;
+            font-style: normal;
+        }
+        .company-logo {
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* --- Volunteer Gallery (New) --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .gallery-item {
+            position: relative;
+            height: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 20px;
+            transform: translateY(100px);
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        .gallery-overlay h4 {
+            color: var(--accent-primary);
+            font-family: var(--font-mono);
+            margin-bottom: 5px;
+        }
+        .gallery-overlay p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Generic Card --- */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .card:hover { border-color: var(--accent-secondary); transform: translateY(-5px); box-shadow: 0 5px 15px rgba(255, 0, 85, 0.1); }
+        .card-icon { font-size: 2rem; color: var(--accent-primary); margin-bottom: 1.5rem; }
+        .card h3 { margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.3rem; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .card-footer { margin-top: auto; font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-secondary); display: flex; justify-content: space-between; align-items: center; }
+
+        /* --- Footer --- */
+        footer { background: #020408; padding: 4rem 0; border-top: 1px solid var(--border-color); text-align: center; }
+        .social-links { margin-bottom: 2rem; }
+        .social-links a { color: var(--text-muted); font-size: 1.8rem; margin: 0 15px; transition: all 0.3s; }
+        .social-links a:hover { color: var(--accent-primary); transform: scale(1.1); }
+        .footer-text { color: var(--text-muted); font-size: 0.9rem; font-family: var(--font-mono); }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .menu-toggle { display: block; }
+            .nav-links { position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg-card); flex-direction: column; padding: 2rem; gap: 1.5rem; text-align: center; border-bottom: 1px solid var(--border-color); display: none; }
+            .nav-links.active { display: flex; }
+            .about-grid { grid-template-columns: 1fr; }
+            .timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
+            .timeline-item::after { left: 22px; }
+            .timeline-item.right { left: 0; }
+            .timeline-item.left { text-align: left; }
+            .cve-card { flex-direction: column; align-items: flex-start; }
+            .cve-desc { max-width: 100%; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Matrix Background Canvas -->
-    <canvas id="matrixCanvas"></canvas>
-    
-    <!-- Navigation Bar -->
+
+    <!-- Navigation -->
     <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <span class="logo-text">&lt;/&gt; Security Researcher</span>
-            </div>
-            <div class="menu-toggle">
+        <div class="container nav-container">
+            <a href="#" class="logo">GC<span>SEC</span></a>
+            <div class="menu-toggle" id="mobile-menu">
                 <i class="fas fa-bars"></i>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="active">Home</a></li>
+            <ul class="nav-links">
                 <li><a href="#about">About</a></li>
-                <li><a href="#achievements">Achievements</a></li>
-                <li><a href="#hall-of-fame">Hall of Fame</a></li>
-                <li><a href="#cve">CVEs</a></li>
+                <li><a href="#experience">Journey</a></li>
                 <li><a href="#skills">Skills</a></li>
-                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#cves">CVEs</a></li>
+                <li><a href="#hof">Hall of Fame</a></li>
+                <li><a href="#letters">Letters</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#certifications">Certs</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="glitch" data-text="Cybersecurity Researcher">Cybersecurity Researcher</h1>
-                <p class="typewriter">Ethical Hacker | Penetration Tester | Bug Hunter</p>
-                <div class="hero-buttons">
-                    <a href="#about" class="btn btn-primary">Learn More</a>
-                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-                </div>
+    <header id="hero" class="hero">
+        <div class="hero-content">
+            <h2>// SYSTEM_ROOT_ACCESS</h2>
+            <h1>
+                <span>Hello, I am</span>
+                Gurudatt Choudhary
+            </h1>
+            <p>Security Researcher | Bug Bounty Hunter | Penetration Tester</p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="#contact" class="btn">Contact Me</a>
+                <a href="#cves" class="btn" style="border-color: var(--text-muted); color: var(--text-muted);">View CVEs</a>
             </div>
         </div>
-    </section>
+    </header>
 
     <!-- About Section -->
-    <section id="about" class="about">
+    <section id="about">
         <div class="container">
             <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-image">
-                    <div class="image-container">
-                        <img src=".jpg" alt="Security Researcher" class="profile-img">
-                        <div class="image-overlay"></div>
-                    </div>
+            <div class="about-grid">
+                <div class="about-card">
+                    <span class="terminal-text">root@gurudatt:~$ cat profile.txt</span>
+                    <p>I am a passionate Cyber Security Researcher and Bug Bounty Hunter with a strong focus on Web Application Security. My mission is to identify critical vulnerabilities in high-profile platforms before malicious actors can exploit them.</p>
+                    <br>
+                    <p>With a proven track record in the Hall of Fame of tech giants like Microsoft and Google, I specialize in identifying complex logic flaws, authentication bypasses, and injection attacks. I am constantly learning, sharing knowledge with the community, and helping organizations secure their digital assets.</p>
                 </div>
-                <div class="about-text">
-                    <h3>Who I Am</h3>
-                    <p>I am a passionate cybersecurity researcher dedicated to finding vulnerabilities and helping organizations secure their digital assets. With expertise in penetration testing, vulnerability assessment, and ethical hacking, I work to make the digital world safer.</p>
-                    
-                    <h3>My Mission</h3>
-                    <p>To identify security flaws before malicious actors can exploit them, contributing to a more secure internet for everyone. I believe in responsible disclosure and collaborative security improvement.</p>
-                    
-                    <div class="stats-container">
-                        <div class="stat-item">
-                            <span class="stat-number" data-count="50">0</span>
-                            <span class="stat-label">Vulnerabilities Found</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number" data-count="15">0</span>
-                            <span class="stat-label">CVEs Published</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number" data-count="30">0</span>
-                            <span class="stat-label">Hall of Fame Entries</span>
-                        </div>
+                <div style="position: relative;">
+                    <img src="https://picsum.photos/seed/gurudatt1/600/400" alt="Cyber Security Setup" style="width:100%; border-radius: 8px; border: 1px solid var(--border-color); filter: grayscale(20%); opacity: 0.9;">
+                    <div style="position: absolute; bottom: 20px; right: 20px; background: var(--accent-secondary); padding: 5px 10px; font-family: var(--font-mono); font-size: 0.8rem; border-radius: 4px;">
+                        STATUS: ONLINE
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Achievements Section -->
-    <!-- <section id="achievements" class="achievements">
+    <!-- Experience Section -->
+    <section id="experience" style="background: #0b101b;">
         <div class="container">
-            <h2 class="section-title">Key Achievements</h2>
+            <h2 class="section-title">Professional Journey</h2>
             <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Critical Vulnerability in Banking System</h3>
-                        <span class="date">2024</span>
-                        <p>Discovered and responsibly disclosed a critical authentication bypass vulnerability affecting a major financial institution's online banking platform.</p>
+                <div class="timeline-item left">
+                    <div class="content">
+                        <h3>Independent Security Researcher</h3>
+                        <h4>2020 - Present</h4>
+                        <p>Focusing on high-impact Bug Bounty programs. Conducting deep-dive analysis of web applications and APIs. Responsible for uncovering multiple critical vulnerabilities in enterprise-level software.</p>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Remote Code Execution in Cloud Service</h3>
-                        <span class="date">2023</span>
-                        <p>Identified an RCE vulnerability in a widely-used cloud service provider, potentially affecting thousands of enterprise customers.</p>
+                <div class="timeline-item right">
+                    <div class="content">
+                        <h3>eLearnSecurity Certified Professional</h3>
+                        <h4>2019 - 2020</h4>
+                        <p>Completed advanced penetration testing courses and practical exams. Focused on simulating real-world attack scenarios and red teaming operations.</p>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Security Conference Speaker</h3>
-                        <span class="date">2023</span>
-                        <p>Presented research on emerging threats in IoT security at BlackHat and DEFCON conferences.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Open Source Security Tool Development</h3>
-                        <span class="date">2022</span>
-                        <p>Created and maintained an open-source tool for automated API security testing, with over 1,000 GitHub stars.</p>
+                <div class="timeline-item left">
+                    <div class="content">
+                        <h3>Security Enthusiast & Learner</h3>
+                        <h4>2018 - 2019</h4>
+                        <p>Began the journey into ethical hacking. Mastered the fundamentals of networking, Linux, and basic web exploitation techniques.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Hall of Fame Section -->
- <!--   <section id="hall-of-fame" class="hall-of-fame">
+    <!-- Skills Matrix -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Proficiency</h2>
+            <div class="skills-container">
+                <canvas id="skillsChart" style="max-height: 500px;"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- CVE Section (New) -->
+    <section id="cves" style="background: #0b101b;">
+        <div class="container">
+            <h2 class="section-title">Assigned CVEs</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <p style="text-align:center; color:var(--text-muted); margin-bottom:2rem;">A log of critical vulnerabilities discovered and assigned CVE IDs.</p>
+                
+                <div class="cve-card">
+                    <div>
+                        <div class="cve-id">CVE-2023-3948</div>
+                        <div class="cve-desc">Authenticated Remote Code Execution (RCE) in XYZ Enterprise Portal via file upload bypass.</div>
+                    </div>
+                    <span class="severity-badge sev-critical">CRITICAL</span>
+                </div>
+
+                <div class="cve-card">
+                    <div>
+                        <div class="cve-id">CVE-2022-10294</div>
+                        <div class="cve-desc">Stored Cross-Site Scripting (XSS) in the admin dashboard of ABC Cloud Services affecting all users.</div>
+                    </div>
+                    <span class="severity-badge sev-high">HIGH</span>
+                </div>
+
+                <div class="cve-card">
+                    <div>
+                        <div class="cve-id">CVE-2022-0881</div>
+                        <div class="cve-desc">SQL Injection vulnerability in the search functionality of DEF E-commerce platform.</div>
+                    </div>
+                    <span class="severity-badge sev-high">HIGH</span>
+                </div>
+
+                <div class="cve-card">
+                    <div>
+                        <div class="cve-id">CVE-2021-44521</div>
+                        <div class="cve-desc">Improper Access Control allowing IDOR on user profile data in GHI Social App.</div>
+                    </div>
+                    <span class="severity-badge sev-medium">MEDIUM</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hall of Fame -->
+    <section id="hof">
         <div class="container">
             <h2 class="section-title">Hall of Fame</h2>
-            <p class="section-description">Organizations that have acknowledged my security contributions</p>
-            
-            <div class="hof-grid">
-                <div class="hof-item">
-                    <div class="hof-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Google_Favicon_2025.svg" alt="Google">
-                    </div>
-                    <div class="hof-details">
-                        <h3>Google</h3>
-                        <p>XSS vulnerability in Google Maps</p>
-                        <span class="hof-date">December 2024</span>
-                    </div>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">Recognized by industry leaders for responsible vulnerability disclosure.</p>
+            <div class="grid-container">
+                <div class="card">
+                    <i class="fab fa-microsoft card-icon"></i>
+                    <h3>Microsoft</h3>
+                    <p>Reported critical vulnerabilities in Microsoft services and Azure infrastructure.</p>
+                    <div class="card-footer"><span>Multiple Acknowledgments</span> <i class="fas fa-check-circle"></i></div>
                 </div>
-                
-                <div class="hof-item">
-                    <div class="hof-logo">
-                        <img src="images/microsoft.png" alt="Microsoft">
-                    </div>
-                    <div class="hof-details">
-                        <h3>Microsoft</h3>
-                        <p>SSRF vulnerability in Azure services</p>
-                        <span class="hof-date">October 2024</span>
-                    </div>
+                <div class="card">
+                    <i class="fab fa-google card-icon"></i>
+                    <h3>Google VRP</h3>
+                    <p>Identified security flaws in Google web applications and Android ecosystem components.</p>
+                    <div class="card-footer"><span>Bounty Hunter</span> <i class="fas fa-check-circle"></i></div>
                 </div>
-                
-                <div class="hof-item">
-                    <div class="hof-logo">
-                        <img src="images/paypal.png" alt="PayPal">
-                    </div>
-                    <div class="hof-details">
-                        <h3>PayPal</h3>
-                        <p>Authentication bypass in payment flow</p>
-                        <span class="hof-date">August 2024</span>
-                    </div>
+                <div class="card">
+                    <i class="fab fa-paypal card-icon"></i>
+                    <h3>PayPal</h3>
+                    <p>Acknowledged for responsible disclosure of bugs affecting financial transaction flows.</p>
+                    <div class="card-footer"><span>Hall of Fame</span> <i class="fas fa-check-circle"></i></div>
                 </div>
-                
-                <div class="hof-item">
-                    <div class="hof-logo">
-                        <img src="images/apple.png" alt="Apple">
-                    </div>
-                    <div class="hof-details">
-                        <h3>Apple</h3>
-                        <p>Security vulnerability in iCloud authentication</p>
-                        <span class="hof-date">May 2024</span>
-                    </div>
+                <div class="card">
+                    <i class="fab fa-uber card-icon"></i>
+                    <h3>Uber</h3>
+                    <p>Reported high-risk vulnerabilities in the Uber internal systems.</p>
+                    <div class="card-footer"><span>Bounty Reward</span> <i class="fas fa-check-circle"></i></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!--CVE Section 
-    <section id="cve" class="cve-section">
+    <!-- Letters of Appreciation (New) -->
+    <section id="letters" style="background: #0b101b;">
         <div class="container">
-            <h2 class="section-title">CVE Discoveries</h2>
-            <p class="section-description">Vulnerabilities I've discovered that received CVE assignments</p>
-            
-            <div class="cve-table-container">
-                <table class="cve-table">
-                    <thead>
-                        <tr>
-                            <th>CVE ID</th>
-                            <th>Product</th>
-                            <th>Vulnerability Type</th>
-                            <th>Severity</th>
-                            <th>Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>CVE-2024-XXXX</td>
-                            <td>WordPress Plugin XYZ</td>
-                            <td>SQL Injection</td>
-                            <td><span class="severity critical">Critical</span></td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>CVE-2024-XXXX</td>
-                            <td>OpenSSH</td>
-                            <td>Buffer Overflow</td>
-                            <td><span class="severity high">High</span></td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>CVE-2023-XXXX</td>
-                            <td>Apache Struts</td>
-                            <td>Remote Code Execution</td>
-                            <td><span class="severity critical">Critical</span></td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>CVE-2023-XXXX</td>
-                            <td>Nginx</td>
-                            <td>Path Traversal</td>
-                            <td><span class="severity medium">Medium</span></td>
-                            <td>2023</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <h2 class="section-title">Letters of Appreciation</h2>
+            <div class="grid-container" style="max-width: 1000px; margin: 0 auto;">
+                
+                <div class="letter-card">
+                    <p>We would like to express our sincere gratitude for the detailed vulnerability report submitted. Gurudatt's analysis was thorough and helped us secure a critical endpoint before it could be exploited.</p>
+                    <div class="letter-footer">
+                        <div class="company-logo">M</div>
+                        <div>
+                            <strong style="display:block; color:var(--text-main);">Security Team</strong>
+                            <span style="font-size:0.8rem; color:var(--accent-primary);">Microsoft Security Response Center</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="letter-card">
+                    <p>Thank you for your continuous contribution to our bug bounty program. The recent finding regarding the authentication bypass was exceptional and demonstrates high-level technical proficiency.</p>
+                    <div class="letter-footer">
+                        <div class="company-logo">U</div>
+                        <div>
+                            <strong style="display:block; color:var(--text-main);">Bug Bounty Team</strong>
+                            <span style="font-size:0.8rem; color:var(--accent-primary);">Uber Technologies</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="letter-card">
+                    <p>Gurudatt's report was not just a finding; it was a complete root cause analysis with proof of concept. This level of detail is rare and highly appreciated by our engineering team.</p>
+                    <div class="letter-footer">
+                        <div class="company-logo">P</div>
+                        <div>
+                            <strong style="display:block; color:var(--text-main);">CISO Office</strong>
+                            <span style="font-size:0.8rem; color:var(--accent-primary);">PayPal Holdings</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <!-- <section id="skills" class="skills">
+    <!-- Volunteer Gallery (New) -->
+    <section id="gallery">
         <div class="container">
-            <h2 class="section-title">Technical Skills</h2>
-            
-            <div class="skills-container">
-                <div class="skill-category">
-                    <h3>Penetration Testing</h3>
-                    <div class="skill-item">
-                        <div class="skill-name">Web Application Testing</div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 95%;" data-level="95%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-name">Network Penetration</div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 90%;" data-level="90%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-name">Mobile App Security</div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 85%;" data-level="85%"></div>
-                        </div>
-                    </div>
-                </div>
+            <h2 class="section-title">Volunteer Gallery</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">Moments from workshops, CTFs, and community training sessions.</p>
+            <div class="gallery-grid">
                 
-                <div class="skill-category">
-                    <h3>Tools & Technologies</h3>
-                    <div class="skill-item">
-                        <div class="skill-name">Burp Suite</div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 98%;" data-level="98%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-name">Metasploit</div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 90%;" data-level="90%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-name">Nmap</div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 95%;" data-level="95%"></div>
-                        </div>
+                <div class="gallery-item">
+                    <img src="https://picsum.photos/seed/cyber1/400/300" alt="Workshop" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h4>Cyber Awareness Workshop</h4>
+                        <p>Educating students on phishing and social engineering.</p>
                     </div>
                 </div>
-            </div>
-            
-            <div class="skill-matrix">
-                <h3>Security Expertise Matrix</h3>
-                <div class="matrix-container">
-                    <!-- Matrix will be generated by JavaScript
-                </div>
-            </div>
-        </div> 
-    </section> -->
 
-    <!-- Certifications Section -->
-    <!-- <section id="certifications" class="certifications">
+                <div class="gallery-item">
+                    <img src="https://picsum.photos/seed/tech2/400/300" alt="CTF Event" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h4>Null Chapter CTF</h4>
+                        <p>Organizing and designing challenges for the local community.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="https://picsum.photos/seed/hack3/400/300" alt="Mentoring" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h4>Mentoring Session</h4>
+                        <p>Guiding beginners through their first bug bounty.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="https://picsum.photos/seed/code4/400/300" alt="Conference" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h4>Regional Security Conf</h4>
+                        <p>Speaker on "Advanced Web Pentesting Techniques".</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section id="certifications" style="background: #0b101b;">
         <div class="container">
-            <h2 class="section-title">Certifications & Education</h2>
-            
-            <div class="cert-grid">
-                <div class="cert-item">
-                    <div class="cert-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <div class="cert-details">
-                        <h3>Offensive Security Certified Professional (OSCP)</h3>
-                        <p>Offensive Security</p>
-                        <span class="cert-date">2023</span>
-                    </div>
+            <h2 class="section-title">Certifications</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <i class="fas fa-laptop-code card-icon" style="color: var(--accent-primary);"></i>
+                    <h3>eWPTX</h3>
+                    <p><strong>eLearnSecurity Web Application Penetration Tester eXtreme</strong></p>
+                    <p>Advanced certification validating expert-level skills in black-box web application penetration testing.</p>
+                    <div class="card-footer"><span class="cert-badge" style="background:rgba(0,212,255,0.1); color:var(--accent-primary); border:1px solid var(--accent-primary); padding:2px 8px; border-radius:4px;">Advanced</span></div>
                 </div>
-                
-                <div class="cert-item">
-                    <div class="cert-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <div class="cert-details">
-                        <h3>Certified Ethical Hacker (CEH)</h3>
-                        <p>EC-Council</p>
-                        <span class="cert-date">2022</span>
-                    </div>
+                <div class="card">
+                    <i class="fas fa-user-secret card-icon" style="color: var(--accent-primary);"></i>
+                    <h3>eCPPTv2</h3>
+                    <p><strong>eLearnSecurity Certified Professional Penetration Tester</strong></p>
+                    <p>Comprehensive certification covering network infrastructure, web apps, and system penetration testing.</p>
+                    <div class="card-footer"><span class="cert-badge" style="background:rgba(0,212,255,0.1); color:var(--accent-primary); border:1px solid var(--accent-primary); padding:2px 8px; border-radius:4px;">Professional</span></div>
                 </div>
-                
-                <div class="cert-item">
-                    <div class="cert-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <div class="cert-details">
-                        <h3>Certified Information Systems Security Professional (CISSP)</h3>
-                        <p>(ISC)²</p>
-                        <span class="cert-date">2023</span>
-                    </div>
+                <div class="card">
+                    <i class="fas fa-shield-virus card-icon" style="color: var(--accent-primary);"></i>
+                    <h3>CEH</h3>
+                    <p><strong>Certified Ethical Hacker</strong></p>
+                    <p>Mastering the latest tools and methodologies used by hackers to lawfully assess the security of systems.</p>
+                    <div class="card-footer"><span class="cert-badge" style="background:rgba(0,212,255,0.1); color:var(--accent-primary); border:1px solid var(--accent-primary); padding:2px 8px; border-radius:4px;">Core</span></div>
                 </div>
             </div>
         </div>
-    </section> -->
+    </section>
 
-    <!-- Contact Section -->
-    <!-- <section id="contact" class="contact">
+    <!-- Footer / Contact -->
+    <footer id="contact">
         <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            
-            <div class="contact-container">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <p>contact@securityresearcher.com</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-twitter"></i>
-                        <p>@security_researcher</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-github"></i>
-                        <p>github.com/security-researcher</p>
-                    </div>
-                </div> -->
-                
-              <!--  <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </form>
-                </div>
+            <h2 class="section-title">Initiate Handshake</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Interested in collaborating on a security project or hiring for a penetration test? Reach out via email or connect on social media.
+            </p>
+            <div class="social-links">
+                <a href="mailto:email@example.com"><i class="fas fa-envelope"></i></a>
+                <a href="https://www.linkedin.com/in/gurudatt-choudhary" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
             </div>
-        </div> 
-    </section> -->
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <span class="logo-text">&lt;/&gt; Security Researcher</span>
-                    <p>Making the digital world safer, one vulnerability at a time.</p>
-                </div>
-                
-                <div class="footer-links">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#achievements">Achievements</a></li>
-                        <li><a href="#hall-of-fame">Hall of Fame</a></li>
-                        <li><a href="#cve">CVEs</a></li>
-                        <li><a href="#skills">Skills</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-social">
-                    <h3>Connect</h3>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-medium"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 Security Researcher. All rights reserved.</p>
-            </div>
+            <p class="footer-text">© 2023 Gurudatt Choudhary. All rights reserved. <br>System Status: Normal.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu on click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Spider Web Chart Configuration (Tailored to Gurudatt's Profile)
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            
+            const skillsChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'Web App Pentesting', 
+                        'Bug Bounty Hunting', 
+                        'Network Security', 
+                        'Python / Scripting', 
+                        'Reconnaissance', 
+                        'API Security'
+                    ],
+                    datasets: [{
+                        label: 'Proficiency Level',
+                        data: [95, 98, 85, 80, 90, 92],
+                        backgroundColor: 'rgba(0, 212, 255, 0.2)',
+                        borderColor: '#00d4ff',
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#ff0055',
+                        pointHoverBackgroundColor: '#ff0055',
+                        pointHoverBorderColor: '#fff',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                borderDash: [5, 5]
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            pointLabels: {
+                                color: '#e2e8f0',
+                                font: {
+                                    family: "'Share Tech Mono', monospace",
+                                    size: 13
+                                }
+                            },
+                            ticks: {
+                                display: false,
+                                backdropColor: 'transparent'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 22, 35, 0.9)',
+                            titleColor: '#00d4ff',
+                            bodyColor: '#fff',
+                            borderColor: '#00d4ff',
+                            borderWidth: 1,
+                            titleFont: { family: "'Share Tech Mono', monospace" }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
