@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LA FAMILIA | Black Energy</title>
+    <style>
+        /* --- FONTS & VARIABLES --- */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&display=swap');
+
+        :root {
+            --bg-deep: #020202;
+            --bg-panel: rgba(10, 10, 10, 0.7);
+            --gold-primary: #D4AF37;
+            --gold-light: #F9E5A0;
+            --gold-dark: #8A6E1F;
+            --text-main: #e0e0e0;
+            --text-muted: #666;
+            --border-gold: 1px solid rgba(212, 175, 55, 0.3);
+            --font-display: 'Cinzel', serif;
+            --font-elegant: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; } /* Custom cursor used */
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        /* --- BACKGROUND VIDEO & OVERLAYS --- */
+        #bg-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -3;
+            object-fit: cover;
+            filter: brightness(0.4) contrast(1.2);
+        }
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.95) 100%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.05;
+            z-index: -1;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+        }
+
+        /* --- CANVAS PARTICLES --- */
+        #energy-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot, .cursor-ring {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+        }
+        .cursor-dot { width: 6px; height: 6px; background: var(--gold-primary); }
+        .cursor-ring {
+            width: 40px; height: 40px;
+            border: 1px solid var(--gold-primary);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+        body.hovering .cursor-ring {
+            width: 60px; height: 60px;
+            background-color: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold-light);
+            mix-blend-mode: normal;
+        }
+
+        /* --- ENTRANCE OVERLAY (Audio Unlock) --- */
+        #entrance-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease;
+        }
+        .entrance-title {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            color: var(--gold-primary);
+            letter-spacing: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            animation: pulse-gold 3s infinite;
+        }
+        .enter-btn {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--gold-primary);
+            padding: 15px 50px;
+            font-family: var(--font-body);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .enter-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: var(--gold-primary); z-index: -1; transition: left 0.4s;
+        }
+        .enter-btn:hover { color: #000; }
+        .enter-btn:hover::before { left: 0; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+            transition: background 0.3s, padding 0.3s;
+        }
+        nav.scrolled {
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 60px;
+            mix-blend-mode: normal;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            color: var(--gold-primary);
+            font-size: 1.5rem;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-links a {
+            color: #fff; text-decoration: none; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 2px;
+            position: relative; transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px;
+            background: var(--gold-primary); transition: width 0.3s;
+        }
+        .nav-links a:hover { color: var(--gold-primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        .hero-content { z-index: 2; opacity: 0; transform: translateY(50px); animation: heroReveal 1.5s ease forwards 0.5s; }
+        .hero-sub {
+            font-family: var(--font-elegant);
+            color: var(--gold-light);
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        h1 {
+            font-family: var(--font-display);
+            font-size: 7vw;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255,255,255,0.8);
+            position: relative;
+            margin-bottom: 30px;
+        }
+        h1::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0; width: 0;
+            color: var(--gold-primary);
+            -webkit-text-stroke: 0;
+            border-right: 4px solid var(--gold-primary);
+            overflow: hidden;
+            animation: fillText 3s linear forwards 1.5s;
+        }
+        .hero-btn {
+            margin-top: 40px;
+            display: inline-block;
+        }
+
+        /* --- BANNER SECTIONS (Parallax) --- */
+        .parallax-banner {
+            height: 60vh;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        /* Using a placeholder image for banner */
+        .banner-1 {
+            background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1478720568477-152d9b164e63?q=80&w=2544&auto=format&fit=crop'); 
+        }
+        .banner-content {
+            text-align: center;
+            z-index: 2;
+            padding: 40px;
+            border: 1px solid var(--gold-dark);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            max-width: 800px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+        .banner-quote {
+            font-family: var(--font-elegant);
+            font-size: 2rem;
+            color: var(--gold-light);
+            margin-bottom: 20px;
+        }
+        .banner-author {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            color: #fff;
+        }
+
+        /* --- SERVICES GRID --- */
+        .section { padding: 100px 10%; }
+        .section-header { margin-bottom: 80px; text-align: center; }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+        .section-line {
+            width: 60px; height: 3px; background: var(--gold-primary);
+            margin: 0 auto;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: var(--bg-panel);
+            padding: 50px 30px;
+            border: 1px solid #222;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover {
+            border-color: var(--gold-primary);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .card-icon {
+            font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 25px;
+        }
+        .card h3 {
+            font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 15px;
+        }
+        .card p {
+            color: #aaa; font-size: 0.95rem; line-height: 1.8;
+        }
+
+        /* --- AUDIO TOGGLE --- */
+        #audio-toggle {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            border: 1px solid var(--gold-primary);
+            background: rgba(0,0,0,0.8);
+            color: var(--gold-primary);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 999;
+            transition: all 0.3s;
+        }
+        #audio-toggle:hover { background: var(--gold-primary); color: #000; }
+
+        /* --- ANIMATIONS --- */
+        @keyframes pulse-gold {
+            0%, 100% { text-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+            50% { text-shadow: 0 0 30px rgba(212, 175, 55, 0.8); }
+        }
+        @keyframes fillText { to { width: 100%; border-color: transparent; } }
+        @keyframes heroReveal { to { opacity: 1; transform: translateY(0); } }
+
+        /* Scroll Reveal Utility */
+        .reveal-up { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+        .reveal-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 15vw; }
+            .nav-links { display: none; }
+            .parallax-banner { background-attachment: scroll; }
+            .cursor-dot, .cursor-ring { display: none; }
+            * { cursor: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- OVERLAY: UNLOCK AUDIO -->
+    <div id="entrance-overlay">
+        <div class="entrance-title">LA FAMILIA</div>
+        <button class="enter-btn hover-trigger" id="enter-btn">Enter The Circle</button>
+        <p style="margin-top: 20px; color: #555; font-size: 0.7rem; letter-spacing: 2px;">HEADPHONES RECOMMENDED</p>
+    </div>
+
+    <!-- AUDIO ELEMENT -->
+    <audio id="bg-music" loop>
+        <!-- Using a dark cinematic royalty-free track -->
+        <source src="dark-ambient-soundscape-dreamscape-442836.mp3" type="audio/mpeg">
+    </audio>
+    <button id="audio-toggle" class="hover-trigger">♫</button>
+
+    <!-- VISUALS -->
+    <video id="bg-video" autoplay muted loop playsinline>
+        <!-- Abstract dark smoke/ink video -->
+        <source src="mixkit-black-ink-swirl-in-water-203-hd-ready.mp4" type="video/mp4">
+    </video>
+    <div class="vignette"></div>
+    <div class="noise-overlay"></div>
+    <canvas id="energy-canvas"></canvas>
+
+    <!-- CURSOR -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-logo hover-trigger">OMERTÀ</a>
+        <ul class="nav-links">
+            <li><a href="#philosophy" class="hover-trigger">Philosophy</a></li>
+            <li><a href="#operations" class="hover-trigger">Operations</a></li>
+            <li><a href="#contact" class="hover-trigger">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-sub">EST. 1924 • NEW YORK</div>
+            <h1 data-text="POWER">POWER</h1>
+            <p style="max-width: 600px; margin: 0 auto; color: #aaa;">
+                We operate in the shadows to control the light. A brotherhood of precision, wealth, and unwavering silence.
+            </p>
+            <div class="hero-btn">
+                <a href="#philosophy" class="enter-btn hover-trigger">Learn More</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- PHILOSOPHY BANNER -->
+    <section class="parallax-banner banner-1" id="philosophy">
+        <div class="banner-content reveal-up">
+            <div class="banner-quote">"The higher you climb, the colder the wind. But the view... the view is worth the freeze."</div>
+            <div class="section-line" style="margin: 20px auto;"></div>
+            <div class="banner-author">- The Don</div>
+        </div>
+    </section>
+
+    <!-- OPERATIONS -->
+    <section class="section" id="operations">
+        <div class="section-header reveal-up">
+            <h2 class="section-title">Our Operations</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="grid-3">
+            <!-- Card 1 -->
+            <div class="card reveal-up hover-trigger">
+                <div class="card-icon">I.</div>
+                <h3>Asset Protection</h3>
+                <p>Discretion is our currency. We safeguard what matters most through silent surveillance and impenetrable defense strategies.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="card reveal-up hover-trigger" style="transition-delay: 0.1s">
+                <div class="card-icon">II.</div>
+                <h3>Global Trade</h3>
+                <p>Facilitating the movement of high-value commodities across borders where others cannot tread. Logistics without limits.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="card reveal-up hover-trigger" style="transition-delay: 0.2s">
+                <div class="card-icon">III.</div>
+                <h3>The Arbiters</h3>
+                <p>Resolving disputes efficiently and permanently. When the law is insufficient, we provide the final verdict.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECOND BANNER -->
+    <section class="parallax-banner" style="background-image: linear-gradient(to bottom, #000, #050505), url('https://images.unsplash.com/photo-1495587823014-bde0da523e45?q=80&w=2670&auto=format&fit=crop');">
+        <div class="banner-content reveal-up">
+            <div class="banner-quote">"Respect is earned. Loyalty is returned. Fear is controlled."</div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+        <div class="section-header reveal-up">
+            <h2 class="section-title">Request Audience</h2>
+            <div class="section-line"></div>
+        </div>
+        
+        <div class="reveal-up" style="max-width: 600px; margin: 0 auto; background: rgba(10,10,10,0.8); padding: 40px; border: 1px solid #222;">
+            <form id="contact-form" style="display: flex; flex-direction: column; gap: 20px;">
+                <input type="text" placeholder="CODENAME" style="padding: 15px; background: transparent; border: none; border-bottom: 1px solid #333; color: #fff; font-family: var(--font-body);">
+                <input type="email" placeholder="ENCRYPTED EMAIL" style="padding: 15px; background: transparent; border: none; border-bottom: 1px solid #333; color: #fff; font-family: var(--font-body);">
+                <textarea rows="4" placeholder="YOUR PROPOSITION" style="padding: 15px; background: transparent; border: none; border-bottom: 1px solid #333; color: #fff; font-family: var(--font-body);"></textarea>
+                <button type="submit" class="enter-btn hover-trigger" style="width: 100%; margin-top: 20px;">Transmit</button>
+            </form>
+        </div>
+    </section>
+
+    <footer style="padding: 40px; text-align: center; border-top: 1px solid #111; color: #444; font-size: 0.7rem; letter-spacing: 2px;">
+        &copy; 2024 LA FAMILIA. SILENCE IS GOLDEN.
+    </footer>
+
+    <script>
+        // --- 1. AUDIO SYSTEM ---
+        const overlay = document.getElementById('entrance-overlay');
+        const enterBtn = document.getElementById('enter-btn');
+        const bgMusic = document.getElementById('bg-music');
+        const audioToggle = document.getElementById('audio-toggle');
+        let isAudioPlaying = false;
+
+        bgMusic.volume = 0.4; // Set ambient volume
+
+        enterBtn.addEventListener('click', () => {
+            overlay.style.opacity = '0';
+            setTimeout(() => { overlay.style.display = 'none'; }, 1000);
+            
+            // Try to play audio
+            bgMusic.play().then(() => {
+                isAudioPlaying = true;
+                audioToggle.innerHTML = "II"; // Pause icon symbol
+            }).catch(e => {
+                console.log("Autoplay blocked. User must toggle manually.");
+                isAudioPlaying = false;
+            });
+        });
+
+        audioToggle.addEventListener('click', () => {
+            if (isAudioPlaying) {
+                bgMusic.pause();
+                isAudioPlaying = false;
+                audioToggle.innerHTML = "♫";
+                audioToggle.style.opacity = "0.5";
+            } else {
+                bgMusic.play();
+                isAudioPlaying = true;
+                audioToggle.innerHTML = "II";
+                audioToggle.style.opacity = "1";
+            }
+        });
+
+        // --- 2. CUSTOM CURSOR & MAGNETIC EFFECT ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorRing = document.querySelector('.cursor-ring');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        document.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+            
+            // Slight delay for ring
+            setTimeout(() => {
+                cursorRing.style.left = e.clientX + 'px';
+                cursorRing.style.top = e.clientY + 'px';
+            }, 50);
+        });
+
+        hoverTriggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovering');
+            });
+            trigger.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovering');
+            });
+        });
+
+        // --- 3. SCROLL REVEAL ANIMATION ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // --- 4. CANVAS PARTICLE SYSTEM (Black Energy) ---
+        const canvas = document.getElementById('energy-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+                this.alpha = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.alpha})`; // Gold color
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Connect particles close to each other (Constellation effect)
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 100) {
+                        ctx.strokeStyle = `rgba(212, 175, 55, ${0.1 - dist/1000})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- 5. FORM HANDLING ---
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "TRANSMITTING...";
+            btn.style.opacity = "0.7";
+            
+            setTimeout(() => {
+                btn.innerText = "RECEIVED";
+                btn.style.background = "var(--gold-primary)";
+                btn.style.color = "#000";
+                
+                // Reset after 3 seconds
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = "transparent";
+                    btn.style.color = "var(--text-main)";
+                    e.target.reset();
+                }, 3000);
+            }, 1500);
+        });
+
+    </script>
+</body>
+</html> 
